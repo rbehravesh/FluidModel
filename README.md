@@ -15,11 +15,19 @@ $ pip install networkx  \\[minimum 2.6.2]
 $ pip install seaborn
 ```
 
-After having Python and Gurobi environment ready, the Network Config (network_config.py) file can be used to change parameter value of the netwrok, application, and user values. 
+After having Python and Gurobi environment ready, the Network Config (network_config.py) file can be used to change parameter value of the netwrok, application, and user values.
+
+## About the 5G Network topology
+For the network topology generation, we have used the 5GEN MEC topology generator [2]. We have generated three topologies for small, medium, and big networks that are fixed and can be loaded by declaring it in the network_config.py file. In case you want to generate new topologies, we have also added another feature to our code, which uses the same strategy of [2] to generate flexible topologies. Below represents an example of a medium-sized network.
+
+<img src='FixedTopologies/mediumtopology.png' width='600'>
 
 ## Cite our work
 If you use repo in your work, please consider citing our article:
 TODO 
 
 ## References
-[1] https://www.gurobi.com/downloads/?campaignid=2027425882&adgroupid=77414946611&creative=406173548636&keyword=gurobi&matchtype=e&gclid=CjwKCAjw8sCRBhA6EiwA6_IF4T1GiXPxRiBRkbzDdO7oE-bsfG2cUCjJQmY6f3-KG0qrTdWo6roCmxoCQigQAvD_BwE 
+[1] https://www.gurobi.com/downloads/?campaignid=2027425882&adgroupid=77414946611&creative=406173548636&keyword=gurobi&matchtype=e&gclid=CjwKCAjw8sCRBhA6EiwA6_IF4T1GiXPxRiBRkbzDdO7oE-bsfG2cUCjJQmY6f3-KG0qrTdWo6roCmxoCQigQAvD_BwE
+
+[2] https://github.com/MartinPJorge/mec-generator
+
