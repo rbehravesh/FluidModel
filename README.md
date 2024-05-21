@@ -65,7 +65,7 @@ We welcome contributions to this project. If you have suggestions for improvemen
 
 ## Citation
 
-If you use this code or dataset in your research, please cite the paper:
+If you use this code in your research, please cite the paper:
 
 ```
 @article{behravesh2024sfc,
@@ -75,10 +75,6 @@ If you use this code or dataset in your research, please cite the paper:
   year={2024}
 }
 ```
-
-## License
-
-This project is licensed under the MIT License - see the `LICENSE` file for details.
 
 ## Acknowledgments
 
