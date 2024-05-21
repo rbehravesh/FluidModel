@@ -69,8 +69,6 @@ If you use this code in your research, please cite the paper:
 }
 ```
 
-## Acknowledgments
-
-We thank the researchers and developers who provided the realistic topologies used in our evaluations. Their contributions were invaluable to the success of this project.
+## Reference
 
 For more details, please refer to our paper: [A Practical Near Optimal Deployment of Service Function Chains in Edge-to-Cloud Networks](https://doi.org/10.48550/arXiv.2401.07611).
