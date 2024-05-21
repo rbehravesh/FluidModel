@@ -12,7 +12,7 @@ The paper was accepted to IEEE INFOCOM 2024 and is available on arXiv: [arXiv:24
 
 Ensure you have the following dependencies installed:
 - Python 3.x
-- Required Python libraries (listed in `requirements.txt`)
+- Required libraries: Gurobi, Networkx
 
 ### Installation
 
