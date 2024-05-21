@@ -55,17 +55,18 @@ def per_user_allocation_heuristic(model, direct, transient, graph, users, fictit
     # A dict for storing the transient shares computed from the LP model
     valid_transients = get_value_of_valid_transients(transient, graph)
 
+
     # new decision variables to store per-user allocations
 
-    rejected_users, share_amount_rejected, num_users_on_fictitious, share_amount_on_fictitious = \
+    direct_allocation, transient_allocation, rejected_users, share_amount_rejected, users_on_fictitious, share_amount_on_fictitious = \
         perform_allocation(users, valid_directs, valid_transients, fictitious_dcs)
 
-    print_rejected_users(rejected_users, share_amount_rejected, num_users_on_fictitious, share_amount_on_fictitious, 'Fluid Summary')
+    print_rejected_users(rejected_users, share_amount_rejected, users_on_fictitious, share_amount_on_fictitious, 'Fluid Summary')
 
     run_time_stop = timeit.default_timer()
     exec_time_heu = run_time_stop - run_time_start
 
-    return [len(rejected_users), share_amount_rejected, num_users_on_fictitious, share_amount_on_fictitious, exec_time_heu]
+    return [direct_allocation, transient_allocation, rejected_users, share_amount_rejected, users_on_fictitious, share_amount_on_fictitious, exec_time_heu]
 
 
 def find_next_hop(variable_name, i, j, s, m, a, valid_shares, u, allocation_variable):
@@ -97,11 +98,13 @@ def find_next_hop(variable_name, i, j, s, m, a, valid_shares, u, allocation_vari
 
 def perform_allocation(users, valid_directs, valid_transients, fictitious_dcs):
 
-    rejected_users = list()
+    rejected_users = set()
     share_amount_rejected = 0
     share_amount_on_fictitious = 0
     users_on_fictitious = set()
 
+    direct_allocation_fluid = {}
+    transient_allocation_fluid = {}
     for u in users:
         # print(f'{style.YELLOW}--------------------------------------------{style.END}')
         direct_allocation = {}
@@ -122,10 +125,10 @@ def perform_allocation(users, valid_directs, valid_transients, fictitious_dcs):
                 next_m, next_s, not_rejected_yet = find_next_hop('Transient', i, j, next_s, next_m, u.app_demand, valid_transients,
                                                                  u, transient_allocation)
 
-            # if it failed in embedding the
+            # if it failed in embedding the link
             if not not_rejected_yet:
-                rejected_users.append((u.app_demand, u))
-                share_amount_rejected += u.share_demand
+                rejected_users.add(u)
+                share_amount_rejected += u.share_demand * (len(u.app_demand.nodes()) - 2)
                 # deallocate_resources(u, direct_allocation, transient_allocation, shares_direct, shares_transient)
                 break
 
@@ -136,11 +139,15 @@ def perform_allocation(users, valid_directs, valid_transients, fictitious_dcs):
         if fictitious_dcs is not None:
             for u_, a, s, i, j, m, n in direct_allocation:
                 if direct_allocation[u_, a, s, i, j, m, n] and n.startswith('fic'):
-                    users_on_fictitious.add(u_)
+                    users_on_fictitious.add(u)
 
-    share_amount_on_fictitious += sum((u.share_demand for u in users_on_fictitious))
+        direct_allocation_fluid.update(direct_allocation)
+        transient_allocation_fluid.update(transient_allocation_fluid)
 
-    return rejected_users, share_amount_rejected, len(users_on_fictitious), share_amount_on_fictitious
+    share_amount_on_fictitious += sum((u.share_demand * (len(u.app_demand.nodes()) - 2) for u in users_on_fictitious))
+
+    return direct_allocation_fluid, transient_allocation_fluid, rejected_users, share_amount_rejected,\
+           users_on_fictitious, share_amount_on_fictitious
 
 
 def deallocate_resources(u, direct_allocation, transient_allocation, shares_direct, shares_transient):
@@ -173,12 +180,12 @@ def print_output(variable_name, variable):
 
 def print_rejected_users(rejected_users, share_amount_rejected, num_users_on_fictitious, share_amount_on_fictitious, key):
     print('------------------------------------------------------------------\n', style.BOLD, key, style.END)
-    if not len(rejected_users) + num_users_on_fictitious:
+    if not len(rejected_users) + len(num_users_on_fictitious):
         print(style.BOLD, style.BLUE, 'All users are embedded successfully for Fluid!', style.END)
 
     print(style.BLUE, '# of users that FAILED to be embedded by the algorithm:', style.END, len(rejected_users))
     print(style.BLUE, 'Total share demand that FAILED to be embedded by the algorithm:', style.END, share_amount_rejected)
 
-    print(style.PURPLE, '# of users that ended up at a Fictitious DC: ', style.END, num_users_on_fictitious)
+    print(style.PURPLE, '# of users that ended up at a Fictitious DC: ', style.END, len(num_users_on_fictitious))
     print(style.PURPLE, 'User share amount ended up at a Fictitious DC: ', style.END, share_amount_on_fictitious)
     print('------------------------------------------------------------------')

@@ -1,54 +1,73 @@
 from functools import lru_cache
-import network_config as nc
 import networkx as nx
 from networkx import NetworkXNoPath
 
 
-@lru_cache(maxsize=None)
-def route_path(graph, source, target):
-    """
-    Find the shortest path from a source node to the target node based one the distance on the links
-    """
-    try:
-        path = nx.shortest_path(graph, source=source, target=target, weight='distance')
-    except NetworkXNoPath:
-        path = None
-    return path
+class GraphUtilities:
+    def __init__(self, graph):
+        self.graph = graph
 
+    def validate_graph_node(self, node):
+        """
+        Validate if a node exists in the graph.
+        """
+        if node not in self.graph:
+            raise ValueError(f"Node '{node}' not found in the graph.")
 
-@lru_cache(maxsize=None)
-def distance(graph, source, target):
-    """
-    Find the total distance along the shortest path
-    """
-    try:
-        path = nx.shortest_path(graph, source=source, target=target, weight='distance')
-        path_distance = nx.path_weight(graph, path, weight='distance')
+    @lru_cache(maxsize=None)
+    def get_shortest_path(self, source, target):
+        """
+        Get the shortest path between source and target in a graph.
+        """
+        try:
+            self.validate_graph_node(source)
+            self.validate_graph_node(target)
+            return nx.shortest_path(self.graph, source=source, target=target, weight='distance'), True
+        except NetworkXNoPath:
+            return None, False
+        except ValueError as e:
+            print(f"Validation Error: {e}")
+            return None, False
 
-    except NetworkXNoPath:
-        path_distance = 10**10
-    return path_distance
+    # @lru_cache(maxsize=None)
+    def route_path(self, source, target):
+        """
+        Find the shortest path from a source node to the target node based on the distance on the links.
+        """
+        path, _ = self.get_shortest_path(source, target)
+        return path
 
+    @lru_cache(maxsize=None)
+    def distance(self, source, target):
+        """
+        Find the total distance along the shortest path.
+        """
+        path, path_exists = self.get_shortest_path(source, target)
+        if path_exists:
+            return nx.path_weight(self.graph, path, weight='distance')
+        else:
+            return 10**10  # Return a big number to avoid choosing that path
 
-def is_monotonic(graph, s, m, n):
-    """
-    Checks if a link from 'm' to 'n' starting from the 's' is monotonic or not
-    """
-    fictitious = 'fic'
-    if s == fictitious or m == fictitious or n == fictitious:
-        return 1
+    def is_monotonic(self, s, m, n):
+        """
+        Checks if a link from 'm' to 'n' starting from the 's' is monotonic or not.
+        """
+        fictitious = 'fic'
+        if any(node == fictitious for node in [s, m, n]):
+            return 1
 
-    n_x = graph.nodes[n]['lon']  # x position
-    m_x = graph.nodes[m]['lon']
-    s_x = graph.nodes[s]['lon']
+        try:
+            for node in [s, m, n]:
+                self.validate_graph_node(node)
 
-    n_y = graph.nodes[n]['lat']  # y position
-    m_y = graph.nodes[m]['lat']
-    s_y = graph.nodes[s]['lat']
+            n_coord = (self.graph.nodes[n]['longitude'], self.graph.nodes[n]['latitude'])
+            m_coord = (self.graph.nodes[m]['longitude'], self.graph.nodes[m]['latitude'])
+            s_coord = (self.graph.nodes[s]['longitude'], self.graph.nodes[s]['latitude'])
 
-    if abs(n_x - s_x) < abs(m_x - s_x):
-        return -1
-    if abs(n_y - s_y) < abs(m_y - s_y):
-        return -1
-
-    return 1
+            return -1 if any(abs(n_coord[i] - s_coord[i]) < abs(m_coord[i] - s_coord[i]) for i in range(2)) else 1
+        except ValueError as e:
+            print(f"Validation Error in is_monotonic: {e}")
+            return None
+        except KeyError as e:
+            print(f"Key Error in graph node data: {e}")
+            return None
