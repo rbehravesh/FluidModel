@@ -6,13 +6,6 @@ This repository contains the code and supplementary materials for the paper titl
 
 The paper was accepted to IEEE INFOCOM 2024 and is available on arXiv: [arXiv:2401.07611](https://doi.org/10.48550/arXiv.2401.07611).
 
-## Contents
-
-- `code/`: Contains the implementation of the proposed heuristic and the baseline algorithms used for comparison.
-- `data/`: Includes the realistic topologies and datasets used in the evaluations.
-- `results/`: Contains the results of the large-scale evaluations.
-- `docs/`: Additional documentation and resources.
-
 ## Getting Started
 
 ### Prerequisites
