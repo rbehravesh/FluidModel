@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: If you use this software, please cite both the article from preferred-citation and the software itself.
+authors:
+  - family-names: Behravesh
+    given-names: Rasoul
+  - family-names: Breitgand
+    given-names: David
+  - family-names: Lorenz
+    given-names: Dean H.
+  - family-names: Raz
+    given-names: Danny
+title: A Practical Near Optimal Deployment of Service Function Chains in Edge-to-Cloud Networks
+version: 1.0.0
+doi: 10.1109/INFOCOM52122.2024.10621162
+url: "https://github.com/rbehravesh/FluidModel"
+date-released: '2024-09-24'
+preferred-citation:
+  authors:
+    - family-names: Behravesh
+      given-names: Rasoul
+    - family-names: Breitgand
+      given-names: David
+    - family-names: Lorenz
+      given-names: Dean H.
+    - family-names: Raz
+      given-names: Danny
+  title: A Practical Near Optimal Deployment of Service Function Chains in Edge-to-Cloud Networks
+  doi: 10.1109/INFOCOM52122.2024.10621162
+  type: conference-paper
+  pages: 751-760
+  year: '2024'
+  collection-title: IEEE INFOCOM 2024 - IEEE Conference on Computer Communications
+  conference: {}
+  publisher: {}
