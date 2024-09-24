@@ -4,7 +4,7 @@
 
 This repository contains the code and supplementary materials for the paper titled "A Practical Near Optimal Deployment of Service Function Chains in Edge-to-Cloud Networks" by Rasoul Behravesh, David Breitgand, Dean H. Lorenz, and Danny Raz. The paper addresses the efficient deployment of Service Function Chains (SFCs) across edge-to-cloud networks, a problem known to be NP-hard. The authors propose a novel near-optimal heuristic that is both efficient and scalable, outperforming existing state-of-the-art solutions.
 
-The paper was accepted to IEEE INFOCOM 2024 and is available on arXiv: [arXiv:2401.07611](https://doi.org/10.48550/arXiv.2401.07611).
+The paper was [published in IEEE INFOCOM 2024](https://doi.org/10.1109/INFOCOM52122.2024.10621162), Vancouver, BC, Canada, 2024. It is also available on [arXiv:2401.07611](https://doi.org/10.48550/arXiv.2401.07611).
 
 ## Getting Started
 
@@ -61,14 +61,19 @@ We welcome contributions to this project. If you have suggestions for improvemen
 If you use this code in your research, please cite the paper:
 
 ```
-@article{behravesh2024sfc,
-  title={A Practical Near Optimal Deployment of Service Function Chains in Edge-to-Cloud Networks},
+@INPROCEEDINGS{behravesh2024sfc,
   author={Behravesh, Rasoul and Breitgand, David and Lorenz, Dean H. and Raz, Danny},
-  journal={arXiv preprint arXiv:2401.07611},
-  year={2024}
-}
+  booktitle={IEEE INFOCOM 2024 - IEEE Conference on Computer Communications}, 
+  title={A Practical Near Optimal Deployment of Service Function Chains in Edge-to-Cloud Networks}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={751-760},
+  keywords={Cloud computing;Multi-access edge computing;Service function chaining;Network topology;Topology;NFV;VNE;SFC;5G/6G;Edge Computing},
+  doi={10.1109/INFOCOM52122.2024.10621162}}
 ```
 
 ## Reference
 
-For more details, please refer to our paper: [A Practical Near Optimal Deployment of Service Function Chains in Edge-to-Cloud Networks](https://doi.org/10.48550/arXiv.2401.07611).
+For more details, please refer to our paper: <br>
+R. Behravesh, D. Breitgand, D. H. Lorenz and D. Raz, "[A Practical Near Optimal Deployment of Service Function Chains in Edge-to-Cloud Networks](https://doi.org/10.1109/INFOCOM52122.2024.10621162)," IEEE INFOCOM 2024 - IEEE Conference on Computer Communications, Vancouver, BC, Canada, 2024, pp. 751-760, [arXiv:2401.07611](https://doi.org/10.48550/arXiv.2401.07611).
